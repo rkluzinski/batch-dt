@@ -1,0 +1,3 @@
+A python script for batch converting sets of points to delaunay
+triangulations, stored as .obj files.
+The delaunay triangulations are computed using scipy.
