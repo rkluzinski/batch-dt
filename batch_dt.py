@@ -6,16 +6,27 @@ A python script that loads xyz point data from a CSV file, computes the
 delaunay triangulation, and then outputs the .obj file of the final mesh.
 '''
 
-import sys
+from os import listdir
+from os.path import isfile, join
+
 import numpy as np
 from scipy.spatial import Delaunay
+
+#where batch-dt finds the point data files
+INPUT_DIR = './input/'
+
+#where batch-dt outputs the triangulations
+OUTPUT_DIR = './output/'
+
+#extension of the outputted file
+OUTFILE_EXT = 'obj'
 
 def load_points(infile):
     '''
     Loads xyz point data from a CSV file.
 
     Args:
-        infile: A plaintext file that contains the points.
+        infile: A file pointer to the file that contains the point data.
             File format:    x1,y1,z1
                             x2,y2,z2
                             ...
@@ -39,7 +50,7 @@ def write_obj(outfile, points, tri):
     Writes the delaunay triangulation as a .obj file.
 
     Args:
-        outfile: Filename under which the .obj is written.
+        outfile: Filename under which the .obj will be written.
     '''
 
     with open(outfile, 'w') as f:
@@ -48,10 +59,31 @@ def write_obj(outfile, points, tri):
         for u,v,w in tri:
             f.write('f {:d} {:d} {:d}\n'.format(u,v,w))
 
-def main():
-    points = load_points('tests/test100.txt')
+def create_triangulation(infile):
+    '''
+    Handles computing the delaunay triangulation, printing output to the
+    console and writing the .obj to the output folder.
+
+    Args:
+        infile: File pointer to the file that contains the point data.
+    '''
+
+    print("Reading point data from {:s}...".format(infile), end=' ')
+    points = load_points(INPUT_DIR + infile)
+    print("Done.")
+
+    print("Computing Triangulation...", end=' ')
     tri = Delaunay(points[:,[0,1]])
-    write_obj('test.txt', points, tri.simplices)
+    print("Done.")
+
+    print("Writing .obj file to {:s} ...".format(infile), end=' ')
+    write_obj(OUTPUT_DIR + infile, points, tri.simplices)
+    print("Done.")
+
+def main():
+    for f in listdir(INPUT_DIR):
+        if isfile(INPUT_DIR + f):
+            create_triangulation(f)
 
 if __name__ == '__main__':
     main()
