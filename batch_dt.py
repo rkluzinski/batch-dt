@@ -74,19 +74,21 @@ def create_triangulation(infile):
     '''
 
     # reads point data from file
-    print("Reading point data from {:s}...".format(infile), end=' ')
+    print("Reading point data from {:s}".format(infile))
     points = load_points(INPUT_DIR + infile)
-    print("Done.")
 
     # computes the Delaunay triangulation
-    print("Computing Triangulation...", end=' ')
+    print("Computing Triangulation")
     tri = Delaunay(points[:,[0,1]])
-    print("Done.")
+
+    # changes file extension
+    outfile = infile.split('.')
+    outfile[-1] = OUTFILE_EXT
+    outfile = '.'.join(outfile)
 
     # stores the triangulation as an obj file
-    print("Writing .obj file to {:s} ...".format(infile), end=' ')
-    write_obj(OUTPUT_DIR + infile, points, tri.simplices)
-    print("Done.")
+    print("Writing .obj file to {:s}".format(outfile))
+    write_obj(OUTPUT_DIR + outfile, points, tri.simplices)
 
 def main():
     # for all files in input, create_triangulation
