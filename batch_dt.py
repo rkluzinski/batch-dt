@@ -39,9 +39,11 @@ def load_points(infile):
 
     with open(infile, 'r') as f:
         for line in f:
+            # each point is on a new line
             point = tuple(map(float, line.split(',')))
             point_list.append(point)
 
+    # converts to numpy array
     points = np.array(point_list)
     return points
 
@@ -54,8 +56,11 @@ def write_obj(outfile, points, tri):
     '''
 
     with open(outfile, 'w') as f:
+        # writes all vertices
         for x,y,z in points:
             f.write('v {:.8f} {:.8f} {:.8f}\n'.format(x,y,z))
+
+        # writes the faces (triangles)
         for u,v,w in tri:
             f.write('f {:d} {:d} {:d}\n'.format(u,v,w))
 
@@ -68,19 +73,23 @@ def create_triangulation(infile):
         infile: File pointer to the file that contains the point data.
     '''
 
+    # reads point data from file
     print("Reading point data from {:s}...".format(infile), end=' ')
     points = load_points(INPUT_DIR + infile)
     print("Done.")
 
+    # computes the Delaunay triangulation
     print("Computing Triangulation...", end=' ')
     tri = Delaunay(points[:,[0,1]])
     print("Done.")
 
+    # stores the triangulation as an obj file
     print("Writing .obj file to {:s} ...".format(infile), end=' ')
     write_obj(OUTPUT_DIR + infile, points, tri.simplices)
     print("Done.")
 
 def main():
+    # for all files in input, create_triangulation
     for f in listdir(INPUT_DIR):
         if isfile(INPUT_DIR + f):
             create_triangulation(f)
