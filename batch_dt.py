@@ -1,6 +1,6 @@
 '''
 Written by Ryan Kluzinski
-Last Edited Feb 7, 2018
+Last Edited Feb 9, 2018
 
 A python script that loads xyz point data from a CSV file, computes the
 delaunay triangulation, and then outputs the .obj file of the final mesh.
@@ -8,9 +8,12 @@ delaunay triangulation, and then outputs the .obj file of the final mesh.
 
 from os import listdir
 from os.path import isfile, join
+from datetime import datetime
 
 import numpy as np
 from scipy.spatial import Delaunay
+
+from compute_volume import volume_under_surface
 
 #where batch-dt finds the point data files
 INPUT_DIR = './input/'
@@ -20,6 +23,9 @@ OUTPUT_DIR = './output/'
 
 #extension of the outputted file
 OUTFILE_EXT = 'obj'
+
+#areas of each triangulation is logged
+VOL_OUT = 'volumes_utc.txt'
 
 def load_points(infile):
     '''
@@ -64,13 +70,14 @@ def write_obj(outfile, points, tri):
         for u,v,w in tri:
             f.write('f {:d} {:d} {:d}\n'.format(u,v,w))
 
-def create_triangulation(infile):
+def create_triangulation(infile, outfile):
     '''
     Handles computing the delaunay triangulation, printing output to the
     console and writing the .obj to the output folder.
 
     Args:
         infile: File pointer to the file that contains the point data.
+        outfile: File pointer to where the areas are outputted.
     '''
 
     # reads point data from file
@@ -80,6 +87,11 @@ def create_triangulation(infile):
     # computes the Delaunay triangulation
     print("Computing Triangulation")
     tri = Delaunay(points[:,[0,1]])
+
+    # write volume to output file
+    print("Computing Volume")
+    volume = volume_under_surface(points, tri.simplices)
+    outfile.write('{},{}\n'.format(infile, volume))
 
     # changes file extension
     outfile = infile.split('.')
@@ -91,10 +103,20 @@ def create_triangulation(infile):
     write_obj(OUTPUT_DIR + outfile, points, tri.simplices)
 
 def main():
+    utcnow = datetime.utcnow()
+    utcts = str(int(utcnow.timestamp()))
+    print(utcts)
+    VOL_OUT.replace('utc', utcts)
+    outfile = open(VOL_OUT.replace('utc', utcts), 'w')
+
+    outfile.write('Filename,Area\n')
+
     # for all files in input, create_triangulation
     for f in listdir(INPUT_DIR):
         if isfile(INPUT_DIR + f):
-            create_triangulation(f)
+            create_triangulation(f, outfile)
+
+    outfile.close()
 
 if __name__ == '__main__':
     main()

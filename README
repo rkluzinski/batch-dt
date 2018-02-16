@@ -1,3 +1,6 @@
+Written by Ryan Kluzinski
+Last Edited: Feb 9, 2018
+
 A python script for batch converting sets of points to delaunay
 triangulations, stored as .obj files.
 The delaunay triangulations are computed using scipy.

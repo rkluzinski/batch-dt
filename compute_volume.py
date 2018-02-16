@@ -74,7 +74,7 @@ def volume_under_surface(points, triangles):
     for t in triangles:
         p1 = points[t[0]]
         p2 = points[t[1]]
-        p3 = points[t[3]]
+        p3 = points[t[2]]
 
         volume += volume_under_triangle(p1, p2, p3)
 
