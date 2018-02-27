@@ -1,6 +1,6 @@
 '''
 Written by Ryan Kluzinski
-Last Edited Feb 9, 2018
+Last Edited Feb 16, 2018
 
 Contains functions for computing the volume under a triangle and for
 computing the total volume under a triangulation.
@@ -26,23 +26,11 @@ def volume_under_triangle(p1, p2, p3):
     >>> volume_under_triangle(p1, p2, p3)
     0.5
 
-    >>> p1 = (0.0, 0.0, 2.0)
-    >>> p2 = (1.0, 0.0, 2.0)
-    >>> p3 = (0.0, 1.0, 2.0)
-    >>> volume_under_triangle(p1, p2, p3)
-    1.0
-
-    >>> p1 = (0.0, 0.0, 0.0)
-    >>> p2 = (1.0, 0.0, 0.0)
-    >>> p3 = (0.0, 1.0, 0.0)
-    >>> volume_under_triangle(p1, p2, p3)
-    0.0
-
-    >>> p1 = (0.0, 0.0, -2.0)
-    >>> p2 = (1.0, 0.0, -2.0)
-    >>> p3 = (0.0, 1.0, -2.0)
-    >>> volume_under_triangle(p1, p2, p3)
-    -1.0
+    >>> p1 = (0.31300184, 0.62072087, 0.32172434)
+    >>> p2 = (0.50313580, 0.85538665, 0.66274809)
+    >>> p3 = (0.54191970, 0.60448708, 0.89227315)
+    >>> round(volume_under_triangle(p1, p2, p3), 8)
+    0.01776833
     '''
 
     (x1, y1, z1) = p1
@@ -50,7 +38,7 @@ def volume_under_triangle(p1, p2, p3):
     (x3, y3, z3) = p3
 
     # volume = Area of Base * Average Height of vertices
-    volume = (z1 + z2 + z3) * (x1*y2 + x2*y1 + x2*y3 + x3*y2 + x3*y1 + x1*y3) / 6
+    volume = (z1 + z2 + z3) * abs(x1*y2 + x2*y3 + x3*y1 - x1*y3 - x3*y2 - x2*y1) / 6
 
     return volume
 

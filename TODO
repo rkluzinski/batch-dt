@@ -1,11 +1,6 @@
 TODO:
 -write more unit tests for volume under triangle
 -write tests for volume_under_surface
--compute areas after triangulations are computed
 -script to benchmark scipy.spatial.Delaunay (matplotlib)
 -option for logging to file in batch_dt
 -write script for viewing the finished triangulations (via openGL)
-
-Questions:
-1) File I/O method?
-2) Output volumes under curve to file?
