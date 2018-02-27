@@ -1,6 +1,6 @@
 '''
 Written by Ryan Kluzinski
-Last Edited Feb 16, 2018
+Last Edited Feb 26, 2018
 
 A python script that loads xyz point data from a CSV file, computes the
 delaunay triangulation, and then outputs the .obj file of the final mesh.
