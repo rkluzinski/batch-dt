@@ -9,3 +9,8 @@ batch-dt attempts to read point data from every file in the './input/'
 directory wherever 'batch_dt.py' is located.
 It outputs all .obj files the the directory './output' relative to the
 location of 'batch_dt.py'.
+
+Installing Dependencies:
+sudo apt-get install python3-pip python3-pyqt4 mayavi2
+pip3 install numpy scipy vtk mayavi
+

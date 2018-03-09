@@ -1,4 +1,3 @@
 TODO:
--script to benchmark scipy.spatial.Delaunay (matplotlib)
--option for logging to file in batch_dt
--write script for viewing the finished triangulations (via openGL)
+-script to benchmark scipy.spatial.Delaunay
+-log to file for batch_dt
