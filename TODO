@@ -1,3 +1,5 @@
 TODO:
+-Makefile for installing dependencies
+-rewrite render.py using vtk
+-script for rendering mulitple plots
 -script to benchmark scipy.spatial.Delaunay
--log to file for batch_dt

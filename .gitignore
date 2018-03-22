@@ -104,3 +104,7 @@ ENV/
 input/
 output/
 tests/
+pics/
+
+# emacs autosave files
+*~

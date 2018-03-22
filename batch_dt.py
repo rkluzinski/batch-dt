@@ -25,7 +25,7 @@ OUTPUT_DIR = './output/'
 OUTFILE_EXT = 'obj'
 
 #areas of each triangulation is logged
-VOL_OUT = 'volumes_utc.txt'
+VOL_OUT = './logs/volumes_utc.txt'
 
 def load_points(infile):
     '''

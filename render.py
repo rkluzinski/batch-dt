@@ -47,7 +47,7 @@ def load_obj(filename):
     
     return points, tris
 
-def draw_surface(points, tris, show=True, save=False):
+def render_surface(points, tris, show=True, save=False):
     '''
     Invokes mayavi to render the surface.  By default this
     function opens a mayavi2 scene showing the image.
@@ -70,7 +70,7 @@ def draw_surface(points, tris, show=True, save=False):
 
     # save image
     if save:
-        mlab.savefigure('pics/test100.obj')
+        mlab.savefig(filename='/pics/test.png')
 
     # show image
     if show:
@@ -78,7 +78,7 @@ def draw_surface(points, tris, show=True, save=False):
 
 def main():
     points, tris = load_obj("./output/test100.obj")
-    draw_surface(points, tris)
+    render_surface(points, tris)
 
 if __name__ == "__main__":
     main()
