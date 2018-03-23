@@ -14,6 +14,7 @@ import numpy as np
 from scipy.spatial import Delaunay
 
 from compute_volume import volume_under_surface
+from obj import saveObj, loadObj
 
 #where batch-dt finds the point data files
 INPUT_DIR = './input/'
@@ -53,23 +54,6 @@ def load_points(infile):
     points = np.array(point_list)
     return points
 
-def write_obj(outfile, points, tri):
-    '''
-    Writes the delaunay triangulation as a .obj file.
-
-    Args:
-        outfile: Filename under which the .obj will be written.
-    '''
-
-    with open(outfile, 'w') as f:
-        # writes all vertices
-        for x,y,z in points:
-            f.write('v {:.8f} {:.8f} {:.8f}\n'.format(x,y,z))
-
-        # writes the faces (triangles)
-        for u,v,w in tri:
-            f.write('f {:d} {:d} {:d}\n'.format(u,v,w))
-
 def create_triangulation(infile, outfile):
     '''
     Handles computing the delaunay triangulation, printing output to the
@@ -100,7 +84,7 @@ def create_triangulation(infile, outfile):
 
     # stores the triangulation as an obj file
     print("Writing .obj file to {:s}".format(outfile))
-    write_obj(OUTPUT_DIR + outfile, points, tri.simplices)
+    saveObj(OUTPUT_DIR + outfile, points, tri.simplices)
 
 def main():
     utcnow = datetime.utcnow()
