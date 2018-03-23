@@ -1,5 +1,4 @@
 TODO:
--Makefile for installing dependencies
 -rewrite render.py using matplotlib
 -script for rendering mulitple plots
 -script to benchmark scipy.spatial.Delaunay
