@@ -1,6 +1,6 @@
 '''
 Written by Ryan Kluzinski
-Last Edited Feb 26, 2018
+Last Edited March 23, 2018
 
 A python script that loads xyz point data from a CSV file, computes the
 delaunay triangulation, and then outputs the .obj file of the final mesh.
@@ -26,7 +26,7 @@ OUTPUT_DIR = './output/'
 OUTFILE_EXT = 'obj'
 
 #areas of each triangulation is logged
-VOL_OUT = './logs/volumes_utc.txt'
+VOL_OUT = './areas/volumes_utc.txt'
 
 def load_points(infile):
     '''
