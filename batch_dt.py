@@ -2,8 +2,9 @@
 Written by Ryan Kluzinski
 Last Edited March 23, 2018
 
-A python script that loads xyz point data from a CSV file, computes the
-delaunay triangulation, and then outputs the .obj file of the final mesh.
+A python script that loads xyz point data from a CSV file, computes 
+the delaunay triangulation, and then outputs the .obj file of the 
+final mesh.
 '''
 
 from os import listdir
@@ -16,6 +17,9 @@ from scipy.spatial import Delaunay
 from compute_volume import volume_under_surface
 from obj import saveObj, loadObj
 
+import matplotlib.pyplot as plt
+from mpl_toolkits.mplot3d import Axes3D
+
 #where batch-dt finds the point data files
 INPUT_DIR = './input/'
 
@@ -26,20 +30,25 @@ OUTPUT_DIR = './output/'
 OUTFILE_EXT = 'obj'
 
 #areas of each triangulation is logged
-VOL_OUT = './areas/volumes_utc.txt'
+VOL_OUT = './volumes/volumes_*.txt'
+
+#for 3D plotting
+fig = plt.figure()
+ax = Axes3D(fig)
 
 def load_points(infile):
     '''
     Loads xyz point data from a CSV file.
 
     Args:
-        infile: A file pointer to the file that contains the point data.
+      infile: A file pointer to the file that contains the point 
+        data.
             File format:    x1,y1,z1
                             x2,y2,z2
                             ...
     Returns:
-        points: A (n x 3) numpy array containing the points loaded from
-            the infile.
+      points: A (n x 3) numpy array containing the points loaded 
+        from the infile.
     '''
 
     point_list = []
@@ -54,14 +63,37 @@ def load_points(infile):
     points = np.array(point_list)
     return points
 
-def create_triangulation(infile, outfile):
+def render_surface(filename, points, tris):
     '''
-    Handles computing the delaunay triangulation, printing output to the
-    console and writing the .obj to the output folder.
+    Render the surface and saves the image to a file.
 
     Args:
-        infile: File pointer to the file that contains the point data.
-        outfile: File pointer to where the areas are outputted.
+      filename: name of the saved image file.
+      points: the points that make up the surface.
+      tris: the triangles that make up the surface.
+    '''
+
+    x = points[:,0]
+    y = points[:,1]
+    z = points[:,2]
+    
+    plt.cla()
+    ax.plot_trisurf(x, y, z,
+                    #triangles=tris,
+                    linewidth=0.2,
+                    antialiased=True)
+    plt.draw()
+    plt.savefig(filename)
+
+def create_triangulation(infile, outfile):
+    '''
+    Handles computing the delaunay triangulation, printing output 
+    to the console and writing the .obj to the output folder.
+
+    Args:
+      infile: File pointer to the file that contains the point 
+        data.
+      outfile: File pointer to where the areas are outputted.
     '''
 
     # reads point data from file
@@ -77,6 +109,10 @@ def create_triangulation(infile, outfile):
     volume = volume_under_surface(points, tri.simplices)
     outfile.write('{},{}\n'.format(infile, volume))
 
+    # renders image of the surface
+    print("Rendering Surface")
+    render_surface('./images/test.png', points, tri.simplices)   
+
     # changes file extension
     outfile = infile.split('.')
     outfile[-1] = OUTFILE_EXT
@@ -87,13 +123,13 @@ def create_triangulation(infile, outfile):
     saveObj(OUTPUT_DIR + outfile, points, tri.simplices)
 
 def main():
+    # logs volumes to a file
+    # utc timestamp is added to file name
     utcnow = datetime.utcnow()
     utcts = str(int(utcnow.timestamp()))
-    print(utcts)
-    VOL_OUT.replace('utc', utcts)
-    outfile = open(VOL_OUT.replace('utc', utcts), 'w')
+    outfile = open(VOL_OUT.replace('*', utcts), 'w')
 
-    outfile.write('Filename,Area\n')
+    outfile.write('Filename,Volume\n')
 
     # for all files in input, create_triangulation
     for f in listdir(INPUT_DIR):

@@ -1,4 +1,4 @@
 TODO:
--rewrite render.py using matplotlib
+-port project to glumpy
 -script for rendering mulitple plots
--script to benchmark scipy.spatial.Delaunay
+-script test dependencies and benchmark
