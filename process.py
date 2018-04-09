@@ -14,7 +14,7 @@ from datetime import datetime
 import numpy as np
 from scipy.spatial import Delaunay
 
-from compute_volume import volume_under_surface
+from volumes import volume_under_surface
 from obj import saveObj, loadObj
 
 import matplotlib.pyplot as plt
