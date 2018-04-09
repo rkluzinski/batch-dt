@@ -10,7 +10,11 @@ directory wherever 'batch_dt.py' is located.
 It outputs all .obj files the the directory './output' relative to the
 location of 'batch_dt.py'.
 
-Dependencies:
-numpy
-scipy
-vtk
+TODO
+-rm test_gen.py
+-add test.py for testing dependencies
+-add demo.py to demo what the tool does
+-use mayavi and python2.7 for rendering
+-add arguments to process.py
+-rewrite README
+-rewrite Makefile
