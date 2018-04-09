@@ -16,9 +16,7 @@ from scipy.spatial import Delaunay
 
 from volumes import volume_under_surface
 from obj import saveObj, loadObj
-
-import matplotlib.pyplot as plt
-from mpl_toolkits.mplot3d import Axes3D
+from render import render_trisurface
 
 #where batch-dt finds the point data files
 INPUT_DIR = './input/'
@@ -26,15 +24,8 @@ INPUT_DIR = './input/'
 #where batch-dt outputs the triangulations
 OUTPUT_DIR = './output/'
 
-#extension of the outputted file
-OUTFILE_EXT = 'obj'
-
 #areas of each triangulation is logged
-VOL_OUT = './volumes/volumes_*.txt'
-
-#for 3D plotting
-fig = plt.figure()
-ax = Axes3D(fig)
+LOG_FILE = './volumes/volumes_{}.txt'
 
 def load_points(infile):
     '''
@@ -63,28 +54,6 @@ def load_points(infile):
     points = np.array(point_list)
     return points
 
-def render_surface(filename, points, tris):
-    '''
-    Render the surface and saves the image to a file.
-
-    Args:
-      filename: name of the saved image file.
-      points: the points that make up the surface.
-      tris: the triangles that make up the surface.
-    '''
-
-    x = points[:,0]
-    y = points[:,1]
-    z = points[:,2]
-    
-    plt.cla()
-    ax.plot_trisurf(x, y, z,
-                    #triangles=tris,
-                    linewidth=0.2,
-                    antialiased=True)
-    plt.draw()
-    plt.savefig(filename)
-
 def create_triangulation(infile, outfile):
     '''
     Handles computing the delaunay triangulation, printing output 
@@ -96,45 +65,45 @@ def create_triangulation(infile, outfile):
       outfile: File pointer to where the areas are outputted.
     '''
 
+    filename = infile.split(".")[0]
+
     # reads point data from file
-    print("Reading point data from {:s}".format(infile))
+    print("reading data from {}{}".format(INPUT_DIR, infile))
     points = load_points(INPUT_DIR + infile)
 
     # computes the Delaunay triangulation
-    print("Computing Triangulation")
+    print("computing triangulation...")
     tri = Delaunay(points[:,[0,1]])
 
     # write volume to output file
-    print("Computing Volume")
+    print("computing volume...")
     volume = volume_under_surface(points, tri.simplices)
     outfile.write('{},{}\n'.format(infile, volume))
 
     # renders image of the surface
-    print("Rendering Surface")
-    render_surface('./images/test.png', points, tri.simplices)   
-
-    # changes file extension
-    outfile = infile.split('.')
-    outfile[-1] = OUTFILE_EXT
-    outfile = '.'.join(outfile)
+    print("rendering surface...")
+    render_trisurface('./images/{}.png'.format(filename),
+                      points, tri.simplices)
+    print("saved image to ./images/{}.png".format(filename))
 
     # stores the triangulation as an obj file
-    print("Writing .obj file to {:s}".format(outfile))
-    saveObj(OUTPUT_DIR + outfile, points, tri.simplices)
+    print("writing .obj to {}{}.obj".format(OUTPUT_DIR, filename))
+    saveObj("{}{}.obj".format(OUTPUT_DIR, filename),
+            points, tri.simplices)
 
 def main():
     # logs volumes to a file
     # utc timestamp is added to file name
     utcnow = datetime.utcnow()
     utcts = str(int(utcnow.timestamp()))
-    outfile = open(VOL_OUT.replace('*', utcts), 'w')
+    outfile = open(LOG_FILE.format(utcts), 'w')
 
     outfile.write('Filename,Volume\n')
 
     # for all files in input, create_triangulation
-    for f in listdir(INPUT_DIR):
-        if isfile(INPUT_DIR + f):
-            create_triangulation(f, outfile)
+    for infile in listdir(INPUT_DIR):
+        if isfile(INPUT_DIR + infile):
+            create_triangulation(infile, outfile)
 
     outfile.close()
 
