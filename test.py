@@ -41,8 +41,6 @@ if failed:
 
 # for unit testing
 from volumes import volume_under_surface
-tolerance = 0.05
-
 
 def test_volume(fn, resolution, xbound, ybound,  expected):
     """
@@ -56,12 +54,12 @@ def test_volume(fn, resolution, xbound, ybound,  expected):
 
     # scales and shifts x points 
     x_scale = xbound[1] - xbound[0]
-    x_shift = -xbound[0]
+    x_shift = xbound[0]
     points[:,0] = x_scale * points[:,0] + x_shift
 
     # scales and shifts the y points
     y_scale = ybound[1] - ybound[0]
-    y_shift = -ybound[0]
+    y_shift = ybound[0]
     points[:,1] = y_scale * points[:,1] + y_shift
 
     # computes the z points of the function
@@ -72,23 +70,23 @@ def test_volume(fn, resolution, xbound, ybound,  expected):
 
     # computes the volume and error
     volume = volume_under_surface(points, tris)
-    error = (volume - expected) / expected * 100
 
     # creates output string
-    strout = "result: {:.4f}, expected: {:.4f} error: {:.4f}%"\
-             .format(volume, expected, error)
+    strout = "result: {:.4f}, expected: {:.4f}"\
+             .format(volume, expected)
 
     # outputs results
     print(strout)
-    if error > tolerance:
-        print("not within error tolerance!")
-    
 
-print("\nunit tests:")
-print("Error tolerance: {:.2f}%".format(tolerance*100))
 
-# TODO: import functions from functions.py
+print("\ntesting volume_under_surface:")
 
 # tests
-test_volume(lambda x, y: x**2, 10000, [0,1], [0,1], 0.3333)
-# TODO: add more unit tests
+test_volume(lambda x,y: x+y, 10000, [0,1], [0,1], 1)
+test_volume(lambda x,y: x+y, 10000, [-3,3], [-3,3], 0)
+test_volume(lambda x,y: x*x, 10000, [0,1], [0,1], 0.3333)
+test_volume(lambda x,y: x*x + y*y, 10000, [-1,1], [-1,1], 2.666)
+test_volume(lambda x,y: np.sin(x*x+y*y), 10000,
+            [-2,2], [-2,2], 2.971)
+test_volume(lambda x,y: np.cos(x*x+y*y), 10000,
+            [-2,2], [-2,2], -1.739)

@@ -15,14 +15,16 @@ def volume_under_triangle(p1, p2, p3):
     Computes the volume under a triangle given three points.
 
     Args:
-        p1, p2, p3: The three points (x,y,z) that define the triangle in
-            3d space.
+      p1, p2, p3: The three points (x,y,z) that define the 
+        triangle in 3d space.
 
     Returns:
-        volume: The volume underneath the triangle but above the xy-plane.
-            Volume will be negative if the triangle below the xy-plane.
+      volume: The volume underneath the triangle but above the 
+        xy-plane. Volume will be negative if the triangle below the 
+        xy-plane.
 
-    Based on equations found here: http://www.mathpages.com/home/kmath393.htm
+    Based on equations found here: 
+    http://www.mathpages.com/home/kmath393.htm
 
     >>> p1 = (0.0, 0.0, 1.0)
     >>> p2 = (1.0, 0.0, 1.0)
@@ -54,16 +56,16 @@ def volume_under_triangle(p1, p2, p3):
 
 def compare(result, expected, delta=0.01):
     '''
-    Checks if the result is equal to the expected value (plus or minus
-    delta, the accepted tolerance)
+    Checks if the result is equal to the expected value (plus or 
+    minus delta, the accepted tolerance)
 
     Args:
-        result: the calculated value.
-        expected: the expected value.
-        delta (default 0.01): the tolerance.
+      result: the calculated value.
+      expected: the expected value.
+      delta (default 0.01): the tolerance.
 
     Returns:
-        True/False: whether result is close enough to result.
+      True/False: whether result is close enough to result.
     '''
     #acceptable deviance in testing
     return (expected - delta < result) and (expected + delta > result)
@@ -73,10 +75,10 @@ def volume_under_surface(points, triangles):
     Computes the volume below a triangulated surface.
 
     Args:
-        points: A n by 3 numpy array containing the xyz values of the points
-            in the surface.
-        triangles: A n by 3 numpy array where each row is the index of the
-            points that make up the triangle.
+      points: A n by 3 numpy array containing the xyz values of 
+        the points in the surface.
+      triangles: A n by 3 numpy array where each row is the index
+        of the points that make up the triangle.
 
     Returns:
         volume: The volume contained underneath the curve.
@@ -93,42 +95,3 @@ def volume_under_surface(points, triangles):
         volume += volume_under_triangle(p1, p2, p3)
 
     return volume
-
-def volume_under_function(function):
-    '''
-    Calculates the volume under a surface under a known function (over the
-    domain 0<x<1 and 0<y<1) using volume_under_surface.
-
-    Intended for testing volume_under_surface against known integrals.
-
-    Args:
-        function: a two-variable function that returns real numbers.
-
-    Returns:
-        volume: the calculated volume under the function.
-
-    >>> from math import sqrt, exp, cos
-
-    >>> result = volume_under_function(lambda x,y: x+y)
-    >>> compare(1, result)
-    True
-
-    >>> result = volume_under_function(lambda x,y: sqrt(x*x + y*y))
-    >>> compare(0.765196, result)
-    True
-
-    >>> result = volume_under_function(lambda x,y: exp(x*x + y*y))
-    >>> compare(2.13935, result)
-    True
-
-    >>> result = volume_under_function(lambda x,y: x*y)
-    >>> compare(0.25, result)
-    True
-    '''
-
-    points = [(0.01*x, 0.01*y) for x in range(101) for y in range(101)]
-    tri = Delaunay(np.array(points))
-
-    surface = [(x, y, function(x, y)) for x,y in points]
-
-    return volume_under_surface(surface, tri.simplices)
