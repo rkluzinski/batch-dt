@@ -7,6 +7,7 @@ the delaunay triangulation, and then outputs the .obj file of the
 final mesh.
 '''
 
+import sys
 from os import listdir
 from os.path import isfile, join
 from datetime import datetime
@@ -18,8 +19,11 @@ from volumes import volume_under_surface
 from obj import saveObj, loadObj
 from render import render_trisurface
 
-#where batch-dt finds the point data files
-INPUT_DIR = './input/'
+usage_msg = """usage: python3 process.py [directory]
+\t example: python3 process.py demo/
+\t trailing '/' required!"""
+
+INPUT_DIR = ''
 
 #where batch-dt outputs the triangulations
 OUTPUT_DIR = './output/'
@@ -92,6 +96,13 @@ def create_triangulation(infile, outfile):
             points, tri.simplices)
 
 def main():
+    if len(sys.argv) != 2:
+        print(usage_msg)
+        exit()
+
+    global INPUT_DIR
+    INPUT_DIR = sys.argv[1]
+        
     # logs volumes to a file
     # utc timestamp is added to file name
     utcnow = datetime.utcnow()
