@@ -81,12 +81,13 @@ def test_volume(fn, resolution, xbound, ybound,  expected):
 
 print("\ntesting volume_under_surface:")
 
-# tests
-test_volume(lambda x,y: x+y, 10000, [0,1], [0,1], 1)
-test_volume(lambda x,y: x+y, 10000, [-3,3], [-3,3], 0)
-test_volume(lambda x,y: x*x, 10000, [0,1], [0,1], 0.3333)
-test_volume(lambda x,y: x*x + y*y, 10000, [-1,1], [-1,1], 2.666)
-test_volume(lambda x,y: np.sin(x*x+y*y), 10000,
-            [-2,2], [-2,2], 2.971)
-test_volume(lambda x,y: np.cos(x*x+y*y), 10000,
-            [-2,2], [-2,2], -1.739)
+from functions import *
+
+# expected volumes computed at desmos.com
+test_volume(plane,       10000, [-2,1], [2,3],   3)
+test_volume(paraboloid,  10000, [-3,3], [-3,3],  216)
+test_volume(exponential, 10000, [0,1], [-1,0],   2.139)
+test_volume(sin,         10000, [-1,0], [-1,1],  1.123)
+test_volume(cos,         10000, [-4,-2], [-2,2], 0.2155)
+test_volume(waves,       10000, [-2,5], [-3,2],  3.854)
+test_volume(cone,        10000, [-3,3], [-2,1],  33.11)
