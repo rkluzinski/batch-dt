@@ -11,7 +11,7 @@ TODO
 -truncate doubles when saving the obj?
 '''
 
-def saveObj(filename, vertices, faces):
+def save_obj(filename, vertices, faces):
     '''
     Saves the vertex and face data in a plaintext obj file. The 
     vertices in the faces are stored in counter-clockwise order.
@@ -31,7 +31,7 @@ def saveObj(filename, vertices, faces):
         for face in faces:
             outfile.write('f {0} {1} {2}\n'.format(*face))
 
-def loadObj(filename):
+def load_obj(filename):
     '''
     Loads the vertex and face data from a plaintext obj file. The 
     vertices and face data are return as lists.
@@ -57,8 +57,8 @@ def loadObj(filename):
             # ignore comments
             if line[0] == '#':
                 continue
-            
-            ID, data = line.split(0)
+
+            ID, data = line.split(" ", 1)
 
             # add vertex
             if ID == 'v':
