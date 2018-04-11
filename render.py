@@ -22,8 +22,9 @@ def render_trisurface(filename, points, tris):
     
     plt.cla()
     ax.plot_trisurf(x, y, z,
-                    #triangles=tris,
-                    linewidth=0.2,
-                    antialiased=True)
+                    triangles=tris,
+                    linewidth=0,
+                    antialiased=False,
+                    cmap='Spectral')
     plt.draw()
     plt.savefig(filename)
