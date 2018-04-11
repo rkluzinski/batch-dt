@@ -16,8 +16,7 @@ import numpy as np
 from scipy.spatial import Delaunay
 
 from volumes import volume_under_surface
-from obj import saveObj, loadObj
-from render import render_trisurface
+from obj import save_obj
 
 usage_msg = """usage: python3 process.py [directory]
 \t example: python3 process.py demo/
@@ -84,15 +83,9 @@ def create_triangulation(infile, outfile):
     volume = volume_under_surface(points, tri.simplices)
     outfile.write('{},{}\n'.format(infile, volume))
 
-    # renders image of the surface
-    print("rendering surface...")
-    render_trisurface('./images/{}.png'.format(filename),
-                      points, tri.simplices)
-    print("saved image to ./images/{}.png".format(filename))
-
     # stores the triangulation as an obj file
     print("writing .obj to {}{}.obj".format(OUTPUT_DIR, filename))
-    saveObj("{}{}.obj".format(OUTPUT_DIR, filename),
+    save_obj("{}{}.obj".format(OUTPUT_DIR, filename),
             points, tri.simplices)
 
 def main():
