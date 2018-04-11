@@ -41,6 +41,9 @@ def main():
     create_surface(waves, [-3,3], [-3,3], 10000, "waves.txt")
     create_surface(cone, [0,1], [0,1], 10000, "cone.txt")
 
+    #create_surface(paraboloid, [-1,1], [-1,1], 1000000,
+                   "paraboloid_hd.txt")
+
 
 if __name__ == "__main__":
     main()
