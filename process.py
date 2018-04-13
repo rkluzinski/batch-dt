@@ -15,8 +15,8 @@ from datetime import datetime
 import numpy as np
 from scipy.spatial import Delaunay
 
-from volumes import volume_under_surface
-from obj import save_obj
+from utils.volumes import volume_under_surface
+from utils.obj import save_obj
 
 usage_msg = """usage: python3 process.py [directory]
 \t example: python3 process.py demo/

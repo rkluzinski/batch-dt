@@ -3,7 +3,7 @@ from os.path import isfile
 from mayavi import mlab
 
 import numpy
-from utils.obj import load_obj
+from obj import load_obj
 
 
 def init():

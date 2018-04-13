@@ -6,7 +6,7 @@ Runs unit tests for volume computations.
 """
 
 # unit testing
-from volumes import volume_under_surface
+from utils.volumes import volume_under_surface
 
 
 def test_volume(fn, resolution, xbound, ybound,  expected):
