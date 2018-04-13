@@ -31,15 +31,22 @@ def create_surface(fn, xbound, ybound, resolution, filename):
             
 
 def main():
-    create_surface(plane, [0,1], [0,1], 10000, "plane.txt")
+    path = "../demo/{}"
+    
+    create_surface(plane, [0,1], [0,1], 10000,
+                   path.format("plane.txt"))
     create_surface(paraboloid, [-1,1], [-1,1], 10000,
-                   "paraboloid.txt")
+                   path.format("paraboloid.txt"))
     create_surface(exponential, [0,1], [0,1], 10000,
-                   "exponential.txt")
-    create_surface(sin, [-2,2], [-2,2], 10000, "sin.txt")
-    create_surface(cos, [-2,2], [-2,2], 10000, "cos.txt")
-    create_surface(waves, [-3,3], [-3,3], 10000, "waves.txt")
-    create_surface(cone, [0,1], [0,1], 10000, "cone.txt")
+                   path.format("exponential.txt"))
+    create_surface(sin, [-2,2], [-2,2], 10000,
+                   path.format("sin.txt"))
+    create_surface(cos, [-2,2], [-2,2], 10000,
+                   path.format("cos.txt"))
+    create_surface(waves, [-3,3], [-3,3], 10000,
+                   path.format("waves.txt"))
+    create_surface(cone, [0,1], [0,1], 10000,
+                   path.format("cone.txt"))
 
 
 if __name__ == "__main__":
