@@ -46,7 +46,9 @@ def load_obj(filename):
         indices of the vertices that make up each face.
     '''
 
-    vertices = []
+    x = []
+    y = []
+    z = []
     faces = []
     
     with open(filename, 'r') as infile:
@@ -62,12 +64,14 @@ def load_obj(filename):
 
             # add vertex
             if ID == 'v':
-                vertex = list(map(float, data.split()))
-                vertices.append(vertex)
+                vx, vy, vz = tuple(map(float, data.split()))
+                x.append(vx)
+                y.append(vy)
+                z.append(vz)
 
             # add face
             elif ID == 'f':
                 face = list(map(int, data.split()))
                 faces.append(face)
 
-    return vertices, faces
+    return x, y, z, faces
