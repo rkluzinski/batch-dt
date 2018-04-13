@@ -8,7 +8,6 @@ Runs unit tests for volume computations.
 # unit testing
 from utils.volumes import volume_under_surface
 
-
 def test_volume(fn, resolution, xbound, ybound,  expected):
     """
     Generates a mesh for a given two-varialbe function, computes
@@ -46,7 +45,7 @@ def test_volume(fn, resolution, xbound, ybound,  expected):
     print(strout)
 
 
-from functions import *
+from utils.functions import *
 print("\ntesting volume_under_surface:")
 
 # expected volumes computed at desmos.com

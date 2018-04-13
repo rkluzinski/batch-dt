@@ -2,7 +2,7 @@
 Written by Ryan Kluzinski
 Last Edited April 9, 2018
 
-Used to generate the demo files.
+Used to generate the demo .txt files.
 """
 
 import numpy as np
