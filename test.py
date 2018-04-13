@@ -2,45 +2,12 @@
 Written by Ryan Kluzinski
 Last Edited April 9, 2018
 
-Ensures dependencies are installed and runs unit tests for
-volume computations.
+Runs unit tests for volume computations.
 """
 
-failed = False
-
-# checks for numpy
-try:
-    import numpy as np
-    print("numpy installed.")
-except:
-    print("numpy not installed!")
-    failed = True
-
-# checks for scipy
-try:
-    import scipy.spatial as spatial
-    print("scipy installed.")
-except:
-    print("scipy not installed!")
-    failed = True
-
-# checks for matplotlib
-try:
-    import matplotlib
-    print("matplotlib installed.")
-except:
-    print("matplotlib not installed!")
-    failed = True
-
-
-# exits if any dependencies are missing
-if failed:
-    print("missing dependencies. skipping unit tests.")
-    exit()
-
-
-# for unit testing
+# unit testing
 from volumes import volume_under_surface
+
 
 def test_volume(fn, resolution, xbound, ybound,  expected):
     """
@@ -79,9 +46,8 @@ def test_volume(fn, resolution, xbound, ybound,  expected):
     print(strout)
 
 
-print("\ntesting volume_under_surface:")
-
 from functions import *
+print("\ntesting volume_under_surface:")
 
 # expected volumes computed at desmos.com
 test_volume(plane,       10000, [-2,1], [2,3],   3)
