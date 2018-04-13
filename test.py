@@ -6,6 +6,7 @@ Runs unit tests for volume computations.
 """
 
 # unit testing
+from scipy.spatial import Delaunay
 from utils.volumes import volume_under_surface
 
 def test_volume(fn, resolution, xbound, ybound,  expected):
@@ -32,13 +33,13 @@ def test_volume(fn, resolution, xbound, ybound,  expected):
     points[:,2] = fn(points[:,0], points[:,1])
 
     # computes the mesh
-    tris = spatial.Delaunay(points[:,0:2]).simplices
+    tris = Delaunay(points[:,0:2]).simplices
 
     # computes the volume and error
     volume = volume_under_surface(points, tris)
 
     # creates output string
-    strout = "result: {:.4f}, expected: {:.4f}"\
+    strout = "result: {:4.4f}, expected: {:4.4f}"\
              .format(volume, expected)
 
     # outputs results
@@ -46,7 +47,7 @@ def test_volume(fn, resolution, xbound, ybound,  expected):
 
 
 from utils.functions import *
-print("\ntesting volume_under_surface:")
+print("testing volume_under_surface:")
 
 # expected volumes computed at desmos.com
 test_volume(plane,       10000, [-2,1], [2,3],   3)
