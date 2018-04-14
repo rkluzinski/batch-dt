@@ -1,20 +1,100 @@
 Written by Ryan Kluzinski
-Last Edited: March 22, 2018
+Last Edited: April 13, 2018
 
-A python script for batch converting sets of points to delaunay
-triangulations, stored as .obj files.
-The delaunay triangulations are computed using scipy.
+=============================================================
+Description:
+=============================================================
+A collection of tools and scripts for analyzing tolerance surfaces.
+These tolerance surfaces are composed 3D points, and this automates
+finding the delaunay triangulations and volumes underneath these
+surfaces.
 
-batch-dt attempts to read point data from every file in the './input/'
-directory wherever 'batch_dt.py' is located.
-It outputs all .obj files the the directory './output' relative to the
-location of 'batch_dt.py'.
+Done as part of a Dean's Research Award at the University of Alberta
+during the fall2017/winter2018 terms.
 
+=============================================================
+Installation:
+=============================================================
+This tool requires both Python2.7 and Python3.x to be installed.
+It uses the program mayavi for 3D plotting and the python packages
+numpy and scipy for numerical computations.
+
+To check for Python2.7 and Python3.x:
+    run 'python --version' for Python2.7
+    run 'python3 --version' for Python3.x
+
+The other dependencies can be installed by using the provided
+Makefile or they can be installed manually.
+
+Using the Makefile:
+    run 'sudo make install'
+
+OR
+
+Manual installation:
+    run 'sudo apt-get python-pip python3-pip mayavi2'
+    run 'sudo -H pip3 install numpy scipy'
+    run 'sudo -H pip install numpy'
+
+=============================================================
+Usage:
+=============================================================
+1) Install dependencies.
+2) Run 'python3 process.py <directory>'.
+    <directory> is the directory containing the csv files to be
+    processed.
+    
+    <directory must have a trailing '/'.
+
+    Ex: 'python3 process.py demo/'
+    This processes all the csv files in the directory 'demo/'. 
+
+    They are expected in the following format:
+
+    example_csv:
+        <float x>, <float y>, <float z>
+	<float x>, <float y>, <float z>
+	...
+
+    This program reads the csv files, computes the delaunay
+    triangulations, computest the volumes underneath the meshes,
+    and then save the .obj file in output/.
+
+    The volumes are logged in volumes/volume_*.txt, where * is the
+    current utc time-stamp (to prevent overwriting old files).
+
+Viewing the surfaces.
+1) To view the surfaces, run 'python grapher.py <obj 1> ...'
+
+    <obj 1> is the path the obj file you want to render. This
+    program can render as many surfaces at the same time as needed.
+
+    Ex: 'python grapher.py output/cone.obj output/plane.obj'
+    This renders cone.obj and plane.obj on the same plot.
+
+2) The program will prompt the user for the x,y,z label axis, and the
+   color of each surface on the plot.
+
+3) The program takes some time to process the files, and will
+   display a window once it is done.
+
+4) The plot can be viewed, rotated, and saved to an image file.
+
+
+=============================================================
+Citation
+=============================================================
+The core developers of mayavi are academics, thus they rely on
+citations to justify time spent on the project. They request figures
+generated using mayavi be cited as such:
+
+Ramachandran, P. and Varoquaux, G., `Mayavi: 3D Visualization of Scientific Data` IEEE Computing in Science & Engineering, 13 (2), pp. 40-51 (2011)
+
+The citation.bib file is also included with the project.
+
+
+=============================================================
 TODO
--rm test_gen.py
--add test.py for testing dependencies
--add demo.py to demo what the tool does
--use mayavi and python2.7 for rendering
--add arguments to process.py
--rewrite README
--rewrite Makefile
+=============================================================
+-remove utils/render.py
+-move test.py to utils/test.py
