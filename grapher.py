@@ -17,6 +17,7 @@ colors = {}
 
 def get_colors(infiles):
     print("Color Format: <R> <G> <B>")
+    print("Colors must be floats between 0 and 1.")
     for infile in infiles:
         while True:
             prompt = "{} color: ".format(infile)
@@ -64,7 +65,7 @@ def add_mesh(filename):
 
 def main():
     if len(sys.argv) < 2:
-        #print usage msg
+        print("usage: python grapher.py obj1 [obj2 ...]")
         exit()
 
     infiles = []
@@ -72,11 +73,15 @@ def main():
     for arg in sys.argv[1:]:
         if not isfile(arg):
             #raise FileNotFoundError()
-            print("file not found")
+            print("file not found: {}".format(arg))
             exit()
 
         infiles.append(arg)
 
+    xlabel = raw_input("X Label: ")
+    ylabel = raw_input("Y Label: ")
+    zlabel = raw_input("Z Label: ")
+    
     get_colors(infiles)
 
     figure = mlab.figure(1, bgcolor=(1,1,1), fgcolor=(0,0,0),
@@ -88,8 +93,8 @@ def main():
     for infile in infiles:
         add_mesh(infile)
 
-    mlab.axes(figure=figure, extent=[0,1]*3)
-    #change x,y,z labels?
+    mlab.axes(figure=figure, extent=[0,1]*3,
+              xlabel=xlabel, ylabel=ylabel, zlabel=zlabel)
 
     add_legend()
 

@@ -8,8 +8,8 @@ final mesh.
 '''
 
 import sys
-from os import listdir
-from os.path import isfile, join
+from os import listdir, makedirs
+from os.path import isfile, join, exists
 from datetime import datetime
 
 import numpy as np
@@ -29,6 +29,12 @@ OUTPUT_DIR = './output/'
 
 #areas of each triangulation is logged
 LOG_FILE = './volumes/volumes_{}.txt'
+
+if not exists("output"):
+    makedirs("output")
+
+if not exists("volumes"):
+    makedirs("volumes")
 
 def load_points(infile):
     '''
